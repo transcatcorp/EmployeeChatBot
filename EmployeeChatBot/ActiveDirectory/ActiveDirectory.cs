@@ -8,23 +8,16 @@ namespace URMC.ActiveDirectory {
         private readonly string _fulldomain;
         private readonly int _port;
         private readonly string _searchBase;
-        private readonly Credentials _serviceUser;
 
         public ActiveDirectory(ActiveDirectoryOptions options)
         {
             _fulldomain = options.URL; _port = options.Port; _searchBase = options.DirectoryClasses;
-            if (!String.IsNullOrWhiteSpace(options.User) && options.Password != null)
-            {
-                _serviceUser = new Credentials() { Username = options.User, Password = options.Password };
-            }
-            else _serviceUser = null;
         }
 
         public IActiveDirectorySearch DirectorySearch(Credentials credentials = null)
         {
-            Credentials _credentials = credentials ?? _serviceUser;
-            if (_credentials == null) throw new UnauthorizedAccessException();
-            return new ActiveDirectorySearch(_credentials, _fulldomain, _port, _searchBase, _serviceUser ?? credentials);
+            if (credentials == null) throw new UnauthorizedAccessException();
+            return new ActiveDirectorySearch(credentials, _fulldomain, _port, _searchBase);
         }
 
         public ActiveDirectoryUser GetUserByUsername(string username, string password = null)

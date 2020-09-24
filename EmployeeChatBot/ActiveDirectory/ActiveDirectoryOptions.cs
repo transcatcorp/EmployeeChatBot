@@ -9,8 +9,6 @@ namespace URMC.ActiveDirectory
     {
         public string URL { get; set; }
         public int Port { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
         public string DirectoryClasses { get; set; }
     }
 }

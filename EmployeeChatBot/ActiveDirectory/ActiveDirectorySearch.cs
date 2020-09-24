@@ -16,10 +16,10 @@ namespace URMC.ActiveDirectory {
         private LdapConnection ldapConnection;
         private ActiveDirectoryUser user;
 
-        public ActiveDirectorySearch(Credentials credentials, string fulldomain, int port, string searchbase, Credentials _serviceUser)
+        public ActiveDirectorySearch(Credentials credentials, string fulldomain, int port, string searchbase)
         {
             user = new ActiveDirectoryUser();
-            using (var context = new PrincipalContext(ContextType.Domain, fulldomain)) // _serviceUser.Username, _serviceUser.Password))
+            using (var context = new PrincipalContext(ContextType.Domain, fulldomain))
             {
 
                 if (context.ValidateCredentials(credentials.Username, credentials.Password))

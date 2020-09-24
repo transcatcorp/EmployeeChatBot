@@ -4,14 +4,14 @@
 @model LoginViewModel
 <div class="ui fluid blue horizontal card">
     <div class="image">
-        <img src="~/images/URMCLogo.png">
+        <img src="~/images/Logo.png">
     </div>
     <div class="content">
         <div class="header">Employee Health Monitoring</div>
     </div>
 </div>
 <div class="ui raised text container segment">
-    <p>Welcome to the University of Rochester Medical Center's Employee Health Monitoring system.</p>
+    <p>Welcome to the Transcat Employee Health Monitoring system.</p>
     <p>For your security, please sign in below.</p>
     <div class="ui divider"></div>
     <form class="ui form" asp-action="Login" asp-controller="Home" method="post">
@@ -22,13 +22,6 @@
         <div class="required field">
             <label>Password</label>
             <input type="password" name="Password" placeholder="Password">
-        </div>
-        <div class="field">
-            <label>Account Type</label>
-            <select class="ui dropdown" name="Domain">
-                <option value="URMC">URMC</option>
-                <option value="UR">UR</option>
-            </select>
         </div>
         <button class="ui button" type="submit">Submit</button>
     </form>
