@@ -16,7 +16,7 @@ namespace EmployeeChatBot.Data.Access
         {
         }
 
-        public async Task SaveReport(int reportId, bool fever, bool coughing, bool breathing, bool soreThroat, bool bodyAches, bool lossOfSmell)
+        public async Task SaveReport(int reportId, ReportSymptoms symptoms)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();
@@ -27,12 +27,15 @@ namespace EmployeeChatBot.Data.Access
                     new
                     {
                         ReportId = reportId,
-                        Fever = fever,
-                        Breathing = breathing,
-                        Coughing = coughing,
-                        SoreThroat = soreThroat,
-                        BodyAches = bodyAches,
-                        LossOfSmell = lossOfSmell
+                        symptoms.Cough,
+                        symptoms.Fever,
+                        symptoms.Breathing,
+                        symptoms.SoreThroat,
+                        symptoms.BodyAches,
+                        symptoms.LossOfSmell,
+                        symptoms.VomitDiarrhea,
+                        symptoms.Traveled,
+                        symptoms.CloseProximity
                     },
                     commandType: CommandType.StoredProcedure);
         }
@@ -54,7 +57,7 @@ namespace EmployeeChatBot.Data.Access
             return val;
         }
 
-        public async Task<ReportDataModel> CreateReport(string username, int empId, string email)
+        public async Task<ReportDataModel> CreateReport(string username, string empId, string email)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();
@@ -73,7 +76,7 @@ namespace EmployeeChatBot.Data.Access
             return retVal;
         }
 
-        public async Task<ReportDataModel> CheckReportByEmployeeId(int empId)
+        public async Task<ReportDataModel> CheckReportByEmployeeId(string empId)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();

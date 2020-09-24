@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE[dbo].[Report_CheckByEmployeeId]
-	@EmployeeId int
+	@EmployeeId nvarchar(MAX)
 AS
 BEGIN
 	SET NOCOUNT ON;

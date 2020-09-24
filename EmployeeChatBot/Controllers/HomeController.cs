@@ -2,6 +2,7 @@
 using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -12,10 +13,12 @@ namespace EmployeeChatBot.Controllers
     public class HomeController : Controller
     {
         private readonly IReportAccess _reportAccess;
+        private readonly ActiveDirectoryOptions _adOptions;
 
-        public HomeController(IReportAccess reportAccess)
+        public HomeController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions)
         {
             _reportAccess = reportAccess;
+            _adOptions = adOptions.Value;
         }
 
         public async Task<IActionResult> SaveReport(ReportModel model)
@@ -33,15 +36,21 @@ namespace EmployeeChatBot.Controllers
                 return Forbid();
             }
 
-            var coughing = model.Symptoms.Contains("Cough");
-            var fever = model.Symptoms.Contains("Temperature");
-            var breathing = model.Symptoms.Contains("Breathing");
-            var soreThroat = model.Symptoms.Contains("Sore Throat");
-            var bodyAches = model.Symptoms.Contains("Body Aches");
-            var lossOfSmell = model.Symptoms.Contains("Loss of taste or smell");
-            await _reportAccess.SaveReport(reportId, fever,
-                coughing, breathing, soreThroat,
-                bodyAches, lossOfSmell);
+            var symptoms = new ReportSymptoms()
+            {
+                Cough = model.Symptoms.Contains("Cough"),
+                Fever = model.Symptoms.Contains("Temperature"),
+                Breathing = model.Symptoms.Contains("Breathing"),
+                SoreThroat = model.Symptoms.Contains("Sore Throat"),
+                BodyAches = model.Symptoms.Contains("Body Aches"),
+                LossOfSmell = model.Symptoms.Contains("Loss of taste or smell"),
+                VomitDiarrhea = model.Symptoms.Contains("Vomiting or diarrhea"),
+                Traveled = model.Symptoms.Contains("Traveled"),
+                CloseProximity = model.Symptoms.Contains("Close Proximity")
+            };
+
+            
+            await _reportAccess.SaveReport(reportId, symptoms);
 
             return Ok();
         }
@@ -60,7 +69,7 @@ namespace EmployeeChatBot.Controllers
             ActiveDirectoryUser user = null;
             IndexViewModel toRet = new IndexViewModel();
             // Login here!
-            URMC.ActiveDirectory.ActiveDirectory directory = new URMC.ActiveDirectory.ActiveDirectory("URL", 636, "DirectoryClasses", "ServiceAccountName", "ServiceAccountPassword");
+            URMC.ActiveDirectory.ActiveDirectory directory = new URMC.ActiveDirectory.ActiveDirectory(_adOptions);
             try
             {
                 user = directory.AuthenticateAsync(new Credentials() { Username = model.Username, Password = model.Password }).GetAwaiter().GetResult();
@@ -76,7 +85,7 @@ namespace EmployeeChatBot.Controllers
             // At this point you can optionally choose to check if the user has a report for the day by looking up their report by EmployeeId
             // You can then set the HasReport flag on the VM to display the previous report for the day
 
-            ReportDataModel newReport = await _reportAccess.CreateReport(user.Username, Convert.ToInt32(user.EmployeeId), user.Mail);
+            ReportDataModel newReport = await _reportAccess.CreateReport(user.Username, user.EmployeeId, user.Mail);
 
             IndexViewModel indexViewModel = new IndexViewModel
             {

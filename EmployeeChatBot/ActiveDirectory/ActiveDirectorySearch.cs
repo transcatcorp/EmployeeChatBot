@@ -19,7 +19,7 @@ namespace URMC.ActiveDirectory {
         public ActiveDirectorySearch(Credentials credentials, string fulldomain, int port, string searchbase, Credentials _serviceUser)
         {
             user = new ActiveDirectoryUser();
-            using (var context = new PrincipalContext(ContextType.Domain, fulldomain, _serviceUser.Username, _serviceUser.Password))
+            using (var context = new PrincipalContext(ContextType.Domain, fulldomain)) // _serviceUser.Username, _serviceUser.Password))
             {
 
                 if (context.ValidateCredentials(credentials.Username, credentials.Password))
@@ -47,9 +47,8 @@ namespace URMC.ActiveDirectory {
                                     user.DistinguishedName = de.Properties["distinguishedName"].Value as string;
                                 // We have a custom property in our AD that identifies the employee's unique identifier
                                 // Change the property name below to whatever your AD property name is to save off this identifier
-                                if (de.Properties.Contains("EmployeeIdentifier"))
-                                    user.EmployeeId = de.Properties["EmployeeIdentifier"].Value as string;
-                                
+                                if (de.Properties.Contains("mail"))
+                                    user.EmployeeId = de.Properties["mail"].Value as string;
                             }
                         }
                     }

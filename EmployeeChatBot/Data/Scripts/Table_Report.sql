@@ -2,15 +2,18 @@
 	[Report_ID] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [nvarchar](max) NOT NULL,
 	[Email] [nvarchar](max) NOT NULL,
-	[EmployeeId] [int] NULL,
+	[EmployeeId] [nvarchar](max) NULL,
 	[Fever] [bit] NULL,
 	[Coughing] [bit] NULL,
 	[Breathing] [bit] NULL,
 	[SoreThroat] [bit] NULL,
 	[BodyAches] [bit] NULL,
 	[LossOfTasteSmell] [bit] NULL,
+	[Traveled] [bit] NULL,
+	[VomitDiarrhea] [bit] NULL,
+	[CloseProximity] [bit] NULL,
 	[CreatedAt] [datetime2](2) NOT NULL,
-	[CompletedAt] [datetime2](2) NULL
+	[CompletedAt] [datetime2](2) NULL,
  CONSTRAINT [PK_Report] PRIMARY KEY CLUSTERED 
 (
 	[Report_ID] ASC

@@ -1,11 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[Report_Save]
 	@ReportId int,
+	@Cough bit,
 	@Fever bit,
 	@Breathing bit,
-	@Coughing bit,
 	@SoreThroat bit,
 	@BodyAches bit,
-	@LossOfSmell bit
+	@LossOfSmell bit,
+	@VomitDiarrhea bit,
+	@Traveled bit,
+	@CloseProximity bit
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -15,10 +18,13 @@ BEGIN
 	UPDATE dbo.Report
 		SET Fever = @Fever,
 			Breathing = @Breathing,
-			Coughing = @Coughing,
+			Coughing = @Cough,
 			SoreThroat = @SoreThroat,
 			BodyAches = @BodyAches,
 			LossOfTasteSmell = @LossOfSmell,
+			Traveled = @Traveled,
+			VomitDiarrhea = @VomitDiarrhea,
+			CloseProximity = @CloseProximity,
 			CompletedAt = GETDATE()
 	WHERE Report_ID = @ReportId
 		AND CompletedAt IS NULL

@@ -10,12 +10,12 @@ namespace URMC.ActiveDirectory {
         private readonly string _searchBase;
         private readonly Credentials _serviceUser;
 
-        public ActiveDirectory(string fulldomain, int port, string searchBase, string username, string password)
+        public ActiveDirectory(ActiveDirectoryOptions options)
         {
-            _fulldomain = fulldomain; _port = port; _searchBase = searchBase;
-            if (!String.IsNullOrWhiteSpace(username) && password != null)
+            _fulldomain = options.URL; _port = options.Port; _searchBase = options.DirectoryClasses;
+            if (!String.IsNullOrWhiteSpace(options.User) && options.Password != null)
             {
-                _serviceUser = new Credentials() { Username = username, Password = password };
+                _serviceUser = new Credentials() { Username = options.User, Password = options.Password };
             }
             else _serviceUser = null;
         }
