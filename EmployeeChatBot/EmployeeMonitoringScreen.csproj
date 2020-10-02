@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>EmployeeMonitoringScreen</AssemblyName>
     <RootNamespace>EmployeeMonitoringScreen</RootNamespace>
+    <UserSecretsId>2e18af50-5b8c-4af5-8c28-1ea8b27d9ff1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

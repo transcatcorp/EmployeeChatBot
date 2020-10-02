@@ -16,5 +16,11 @@ namespace EmployeeChatBot.Models
         public bool VomitDiarrhea { get; set; }
         public bool Traveled { get; set; }
         public bool CloseProximity { get; set; }
+
+
+        public bool IsPositive()
+        {
+            return Fever || Cough || Breathing || SoreThroat || BodyAches || LossOfSmell || VomitDiarrhea || Traveled || CloseProximity;
+        }
     }
 }

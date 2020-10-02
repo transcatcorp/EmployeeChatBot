@@ -34,7 +34,7 @@ namespace EmployeeChatBot.Models
 
         public bool IsPositive()
         {
-            return Fever || Coughing || Breathing || SoreThroat || BodyAches || VomitDiarrhea || CloseProximity;
+            return Fever || Coughing || Breathing || SoreThroat || BodyAches || LossOfSmell || VomitDiarrhea || Traveled || CloseProximity;
         }
     }
 
