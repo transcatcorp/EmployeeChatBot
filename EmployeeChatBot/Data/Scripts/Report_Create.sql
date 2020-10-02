@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Report_Create]
 	@Username nvarchar(MAX),
 	@Email nvarchar(MAX),
-	@EmployeeId int
+	@EmployeeId nvarchar(MAX)
 AS
 BEGIN
 	SET NOCOUNT ON;

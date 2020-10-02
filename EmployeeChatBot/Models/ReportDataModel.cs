@@ -11,7 +11,7 @@ namespace EmployeeChatBot.Models
 
         public string Email { get; set; }
 
-        public int EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
 
         public bool Fever { get; set; }
 
@@ -24,6 +24,9 @@ namespace EmployeeChatBot.Models
         public bool BodyAches { get; set; }
 
         public bool LossOfSmell { get; set; }
+        public bool VomitDiarrhea { get; set; }
+        public bool Traveled { get; set; }
+        public bool CloseProximity { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -31,10 +34,7 @@ namespace EmployeeChatBot.Models
 
         public bool IsPositive()
         {
-            if (Fever == true || Coughing == true || Breathing == true || SoreThroat == true || BodyAches == true)
-                return true;
-            else
-                return false;
+            return Fever || Coughing || Breathing || SoreThroat || BodyAches || VomitDiarrhea || CloseProximity;
         }
     }
 

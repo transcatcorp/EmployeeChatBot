@@ -8,7 +8,7 @@
     <div class="ui top attached segment chat-area" style="overflow-y:scroll; height: 90%;" id="ChatBody">
         <div class="ui fluid blue horizontal card">
             <div class="image">
-                <img src="~/images/URMCLogo.png">
+                <img src="~/images/Logo.png">
             </div>
             <div class="content">
                 <div class="header">Employee Health Monitoring</div>
@@ -31,10 +31,13 @@
                         <br /><br />
                         Temperature of 100 &#176;F (37.8 &#176;C) or higher<br />
                         Cough<br />
-                        Hard time breathing<br />
+                        Shortness of Breath<br />
                         Sore Throat (not due to allergies)<br />
-                        Body Aches<br />
-                        Loss of taste or smell
+                        Muscle or Body Aches<br />
+                        New Loss of taste or smell<br />
+                        Vomiting or diarrhea<br />
+                        Traveled to any states or countries that are experiencing high rates of COVID-19 cases in the last 30 days?<br />
+                        Been in close proximity with anyone how is positive for COVID-19 in the last 14 days?
                     </div>
                 </div>
             </div>
@@ -73,12 +76,15 @@
         <div class="ui fluid action input hidden" id="SymptomSelectionContainer">
             <select name="skills" multiple="" class="ui fluid dropdown" id="Symptoms">
                 <option value="" disabled>Symptoms</option>
-                <option value="Temperature of 100F or higher">Temperature of 100 &#176;F (37.8 &#176;C) or higher</option>
+                <option value="Temperature">Temperature of 100 &#176;F (37.8 &#176;C) or higher</option>
+                <option value="Breathing">Shortness of breath</option>
                 <option value="Cough">Cough</option>
-                <option value="Hard Time Breathing">Hard Time Breathing</option>
                 <option value="Sore Throat">Sore Throat (not due to allergies)</option>
-                <option value="Body Aches">Body Aches</option>
-                <option value="Loss of taste or smell">Loss of taste or smell</option>
+                <option value="Body Aches">Muscle or Body Aches</option>
+                <option value="Vomiting or diarrhea">Vomiting or diarrhea</option>
+                <option value="Loss of taste or smell">New loss of taste or smell</option>
+                <option value="Traveled">Have you traveled to any states or countries that are experiencing high rates of COVID-19 cases in the last 30 days?</option>
+                <option value="Close Proximity">Have you been in close proximity with anyone how is positive for COVID-19 in the last 14 days?</option>
             </select>
             <button class="ui icon button" id="SendSymptoms">
                 <i class="paper plane icon"></i>
@@ -131,7 +137,7 @@
             <div class="header">
                 Do NOT report to work!
                 <br />
-                Call ??? at ??? and notify your supervisor.
+                Call HR and notify your supervisor.
             </div>
             <p>Report generated on <strong id="PositiveReportDate">@DateTime.Today.ToString("D")</strong></p>
         </div>
@@ -148,7 +154,7 @@
             <div class="header">
                 You are clear to go in to work today!
             </div>
-            <p>If your health changes, please call ??? at ??? to report your symptoms and discuss next steps.</p>
+            <p>If your health changes, please call HR to report your symptoms and discuss next steps.</p>
             <p>Report generated on <strong id="NegativeReportDate">@DateTime.Today.ToString("D")</strong></p>
         </div>
         <div class="ui message">
