@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using URMC.ActiveDirectory;
+using EmployeeChatBot.Data;
 
 namespace EmployeeChatBot
 {
@@ -46,6 +47,10 @@ namespace EmployeeChatBot
             //get the AD settings from the appsettings.json file
             var section = Configuration.GetSection("ActiveDirectoryOptions");
             services.Configure<ActiveDirectoryOptions>(section);
+
+            //get the Email settings from the appsettings.json file
+            section = Configuration.GetSection("EmailOptions");
+            services.Configure<EmailOptions>(section);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

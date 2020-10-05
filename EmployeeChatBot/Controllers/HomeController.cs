@@ -1,10 +1,12 @@
 ﻿using EmployeeChatBot.ActiveDirectory;
+using EmployeeChatBot.Data;
 using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using URMC.ActiveDirectory;
 
@@ -14,11 +16,13 @@ namespace EmployeeChatBot.Controllers
     {
         private readonly IReportAccess _reportAccess;
         private readonly ActiveDirectoryOptions _adOptions;
+        private readonly EmailOptions _mailOptions;
 
-        public HomeController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions)
+        public HomeController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions, IOptions<EmailOptions> mailOptions)
         {
             _reportAccess = reportAccess;
             _adOptions = adOptions.Value;
+            _mailOptions = mailOptions.Value;
         }
 
         public async Task<IActionResult> SaveReport(ReportModel model)
@@ -49,8 +53,12 @@ namespace EmployeeChatBot.Controllers
                 CloseProximity = model.Symptoms.Contains("Close Proximity")
             };
 
-            
             await _reportAccess.SaveReport(reportId, symptoms);
+
+            if (symptoms.IsPositive())
+            {
+                SendNotificationEmail(_reportAccess.CheckReport(reportId).Result);
+            }
 
             return Ok();
         }
@@ -142,6 +150,26 @@ namespace EmployeeChatBot.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void SendNotificationEmail(ReportDataModel dataModel)
+        {
+            SmtpClient client = new SmtpClient(_mailOptions.MailServer)
+            {
+                UseDefaultCredentials = true
+            };
+
+            MailMessage message = new MailMessage()
+            {
+                From = new MailAddress(_mailOptions.From),
+                Subject = "Employee Has COVID-19 Symptoms",
+                Priority = MailPriority.High
+            };
+
+            message.To.Add(_mailOptions.To);
+            message.Body = String.Format("Employee {0} has reported COVID-19 symptoms, Travel, or COVID-19 Exposure", dataModel.Email);
+
+            client.Send(message);
         }
     }
 }

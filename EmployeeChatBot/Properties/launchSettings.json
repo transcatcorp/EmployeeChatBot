@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/EmployeeMonitoringScreen",
+      "applicationUrl": "http://localhost/EmployeeChatBot",
       "sslPort": 0
     },
     "iisExpress": {
