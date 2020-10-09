@@ -4,6 +4,7 @@ using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -129,6 +130,36 @@ namespace EmployeeChatBot.Data.Access
                     commandType: CommandType.StoredProcedure);
 
             return retVal;
+        }
+
+        public async Task<Collection<ReportDataModel>> GetPositiveReports()
+        {
+            using IDbConnection conn = DbConnection;
+            conn.Open();
+
+            var retVal = await
+                conn.QueryAsync<ReportDataModel>(
+                    "[dbo].[Report_GetAllPositiveReports]",
+                    commandType: CommandType.StoredProcedure);
+
+            return new Collection<ReportDataModel>(retVal.ToList());
+        }
+
+        public async Task ClearReport (int id)
+        {
+            using IDbConnection conn = DbConnection;
+            conn.Open();
+
+            var retVal = await
+                conn.QueryAsync(
+                    "[dbo].[Report_ClearPositiveResult]",
+                    new
+                    {
+                        ReportId = id
+                    },
+                    commandType: CommandType.StoredProcedure);
+
+            return;
         }
     }
 }
