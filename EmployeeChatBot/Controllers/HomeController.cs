@@ -2,6 +2,7 @@
 using EmployeeChatBot.Data;
 using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,12 +18,14 @@ namespace EmployeeChatBot.Controllers
         private readonly IReportAccess _reportAccess;
         private readonly ActiveDirectoryOptions _adOptions;
         private readonly EmailOptions _mailOptions;
+        private readonly ElevatedUsersOptions _userOptions;
 
-        public HomeController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions, IOptions<EmailOptions> mailOptions)
+        public HomeController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions, IOptions<EmailOptions> mailOptions, IOptions<ElevatedUsersOptions> userOptions)
         {
             _reportAccess = reportAccess;
             _adOptions = adOptions.Value;
             _mailOptions = mailOptions.Value;
+            _userOptions = userOptions.Value;
         }
 
         public async Task<IActionResult> SaveReport(ReportModel model)
@@ -87,18 +90,41 @@ namespace EmployeeChatBot.Controllers
                 LoginViewModel errorModel = new LoginViewModel();
                 errorModel.FailedLogin = true;
                 return View(errorModel);
-
             }
 
             // At this point you can optionally choose to check if the user has a report for the day by looking up their report by EmployeeId
             // You can then set the HasReport flag on the VM to display the previous report for the day
+            var report = await _reportAccess.CheckReportByEmployeeId(user.EmployeeId);
 
-            ReportDataModel newReport = await _reportAccess.CreateReport(user.Username, user.EmployeeId, user.Mail);
+            if (report != null)
+            {
+                //check to see if this report was completed today
+                if(report.CompletedAt != null && report.CompletedAt.Value.Date != DateTime.Today)
+                {
+                    report = null;
+                }
+            }
+            
+            if(report == null)
+            {
+                report = await _reportAccess.CreateReport(user.Username, user.EmployeeId, user.Mail);
+            }
 
             IndexViewModel indexViewModel = new IndexViewModel
             {
-                ReportId = newReport.Id
+                ReportId = report.Id,
+                HasReport = report.CompletedAt != null,
+                IsPositiveReport = report.IsPositive(),
+                IsElevatedUser = _userOptions.Users.Contains(user.Username)
             };
+
+            HttpContext.Session.SetInt32("IsElevatedUser", indexViewModel.IsElevatedUser ? 1 : 0);
+
+            //if this is an elevated user and they already did their assessment
+            if(indexViewModel.IsElevatedUser && indexViewModel.HasReport && indexViewModel.IsElevatedUser)
+            {
+                return RedirectToAction("Index", "ClearReport", new ClearReportViewModel() { IsElevatedUser = indexViewModel.IsElevatedUser });
+            }
 
             return RedirectToAction("Index", indexViewModel);
         }

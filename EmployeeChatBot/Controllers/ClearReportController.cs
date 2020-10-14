@@ -2,6 +2,7 @@
 using EmployeeChatBot.Data;
 using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,12 +18,14 @@ namespace EmployeeChatBot.Controllers
         private readonly IReportAccess _reportAccess;
         private readonly ActiveDirectoryOptions _adOptions;
         private readonly EmailOptions _mailOptions;
+        private readonly ElevatedUsersOptions _userOptions;
 
-        public ClearReportController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions, IOptions<EmailOptions> mailOptions)
+        public ClearReportController(IReportAccess reportAccess, IOptions<ActiveDirectoryOptions> adOptions, IOptions<EmailOptions> mailOptions, IOptions<ElevatedUsersOptions> userOptions)
         {
             _reportAccess = reportAccess;
             _adOptions = adOptions.Value;
             _mailOptions = mailOptions.Value;
+            _userOptions = userOptions.Value;
         }
 
         [Route("ClearReport/{id:int}")]
@@ -30,7 +33,9 @@ namespace EmployeeChatBot.Controllers
         {
             await _reportAccess.ClearReport(id);
 
-            return Ok();
+            var isElevatedUser = HttpContext.Session.GetInt32("IsElevatedUser");
+
+            return RedirectToAction("Index", new ClearReportViewModel() { IsElevatedUser = isElevatedUser == 1 });
         }
 
         [HttpGet]

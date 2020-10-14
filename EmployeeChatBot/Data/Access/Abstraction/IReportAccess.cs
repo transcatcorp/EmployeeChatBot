@@ -17,8 +17,6 @@ namespace EmployeeChatBot.Data.Access.Abstraction
 
         Task<ReportDataModel> CheckReportByEmployeeId(string empId);
 
-        Task<ReportDataModel> CheckReportByEmail(string email);
-
         Task LogFailedLogin(string username, string domain);
 
         Task<Collection<ReportDataModel>> GetPositiveReports();

@@ -41,23 +41,6 @@ namespace EmployeeChatBot.Data.Access
                     commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<ReportDataModel> CheckReportByEmail(string email)
-        {
-            using IDbConnection conn = DbConnection;
-            conn.Open();
-
-            var val = await
-                conn.QueryFirstOrDefaultAsync<ReportDataModel>(
-                    "[dbo].[Report_CheckByEmail]",
-                    new
-                    {
-                        Email = email
-                    },
-                    commandType: CommandType.StoredProcedure);
-
-            return val;
-        }
-
         public async Task<ReportDataModel> CreateReport(string username, string empId, string email)
         {
             using IDbConnection conn = DbConnection;

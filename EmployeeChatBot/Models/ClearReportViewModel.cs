@@ -10,6 +10,8 @@ namespace EmployeeChatBot.Models
     {
         public Collection<ReportDataModel> PositiveReports { get; set; }
 
+        public bool IsElevatedUser { get; set; }
+
         public ClearReportViewModel()
         {
             PositiveReports = new Collection<ReportDataModel>();

@@ -24,19 +24,22 @@
                      </tr>
                  </thead>
                  <tbody>
-                     @foreach(var r in Model.PositiveReports)
-                     {
-                     <tr>
-                         <td>
-                             <div class="text">@r.Email</div>
-                         </td>
-                         <td>
-                             <div class="text">@r.CompletedAt.ToString()</div>
-                        </td>
-                         <td>
-                             <a asp-action="ClearReport" asp-route-id="@r.Id">Clear</a>
-                         </td>
-                     </tr>
+                     @if (Model.IsElevatedUser) 
+                     { 
+                         foreach(var r in Model.PositiveReports)
+                         {
+                         <tr>
+                             <td>
+                                 <div class="text">@r.Email</div>
+                             </td>
+                             <td>
+                                 <div class="text">@r.CompletedAt.ToString()</div>
+                            </td>
+                             <td>
+                                 <a asp-action="ClearReport" asp-route-id="@r.Id">Clear</a>
+                             </td>
+                         </tr>
+                         }
                      }
                  </tbody>
              </table>
