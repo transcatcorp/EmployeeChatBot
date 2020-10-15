@@ -16,5 +16,6 @@ namespace EmployeeChatBot.Models
         public bool IsPositiveReport { get; set; }
 
         public int ReportId { get; set; }
+        public bool IsElevatedUser { get; set; }
     }
 }

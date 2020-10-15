@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Clear Reports";
+}
+
+@model ClearReportViewModel
+
+<div class="" id="ClearReports">
+    <div class="ui top attached segment chat-area" style="overflow-y:scroll; height: 90%;" id="ChatBody">
+        <div class="ui fluid blue horizontal card">
+            <div class="image">
+                <img src="~/images/Logo.png">
+            </div>
+            <div class="content">
+                <div class="header">Employee Health Monitoring</div>
+            </div>
+        </div>
+        <div class="content" id="reportarea">
+             <table class="table" id="reports">
+                 <thead>
+                     <tr>
+                         <th> Employee Email</th>
+                         <th> Report Date</th>
+                         <th> Clear?</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     @if (Model.IsElevatedUser) 
+                     { 
+                         foreach(var r in Model.PositiveReports)
+                         {
+                         <tr>
+                             <td>
+                                 <div class="text">@r.Email</div>
+                             </td>
+                             <td>
+                                 <div class="text">@r.CompletedAt.ToString()</div>
+                            </td>
+                             <td>
+                                 <a asp-action="ClearReport" asp-route-id="@r.Id">Clear</a>
+                             </td>
+                         </tr>
+                         }
+                     }
+                 </tbody>
+             </table>
+
+        </div>
+    </div>
+ </div>
+
+@section scripts {
+    <script>
+
+        $(document).ready(function () {
+
+        });
+    </script>
+}
