@@ -13,65 +13,77 @@
             <div class="content">
                 <div class="header">Employee Health Monitoring</div>
             </div>
-        </div>
-        <div class="ui fluid comments container" id="ChatArea">
-            <div class="comment" id="question-1">
-                <a class="avatar">
-                    <img src="~/images/@Model.BotImage" alt="Dr. Chat Bot avatar" />
-                </a>
-                <div class="content bot-message">
-                    <a class="author">Dr. Chat Bot</a>
-                    <div class="metadata">
-                        <span class="date"></span>
-                    </div>
-                    <div class="text">
-                        Thank you for logging in!
-                        <br /><br />
-                        Have you had any of these symptoms in the past 24 hours that are new or not usual for you?
-                        <br /><br />
-                        Temperature of 100 &#176;F (37.8 &#176;C) or higher<br />
-                        Cough<br />
-                        Shortness of Breath<br />
-                        Sore Throat (not due to allergies)<br />
-                        Muscle or Body Aches<br />
-                        New Loss of taste or smell<br />
-                        Vomiting or diarrhea<br />
-                        Traveled to any states or countries that are experiencing high rates of COVID-19 cases in the last 30 days?<br />
-                        Been in close proximity with anyone how is positive for COVID-19 in the last 14 days?
-                    </div>
+            @if (Model.IsElevatedUser)
+            {
+                <div>
+                    <a asp-controller="ClearReport" asp-action="Index">Clear Reports<span/></a>
                 </div>
-            </div>
-            <div class="ui hidden" id="response-pending">
-                <svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                     viewBox="0 0 100 50" enable-background="new 0 0 0 0" xml:space="preserve">
-                <circle fill="#6e6b6b" stroke="none" cx="6" cy="50" r="6">
-                <animate attributeName="opacity"
-                         dur="1s"
-                         values="0;1;0"
-                         repeatCount="indefinite"
-                         begin="0.1" />
+            }
+        </div>
+                    <div class="ui fluid comments container" id="ChatArea">
+                        <div class="comment" id="question-1">
+                            <a class="avatar">
+                                <img src="~/images/@Model.BotImage" alt="Dr. Chat Bot avatar" />
+                            </a>
+                            <div class="content bot-message">
+                                <a class="author">Dr. Chat Bot</a>
+                                <div class="metadata">
+                                    <span class="date"></span>
+                                </div>
+                                <div class="text">
+                                    Thank you for logging in!
+                                    <br /><br />
+                                    Have you had any of these symptoms in the past 24 hours that are new or not usual for you?
+                                    <br /><br />
+                                    Temperature of 100 &#176;F (37.8 &#176;C) or higher<br />
+                                    Cough<br />
+                                    Shortness of Breath<br />
+                                    Sore Throat (not due to allergies)<br />
+                                    Muscle or Body Aches<br />
+                                    New Loss of taste or smell<br />
+                                    Vomiting or diarrhea<br />
+                                    Traveled to any states or countries that are experiencing high rates of COVID-19 cases in the last 30 days?<br />
+                                    Been in close proximity with anyone how is positive for COVID-19 in the last 14 days?
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui hidden" id="response-pending">
+                            <svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 viewBox="0 0 100 50" enable-background="new 0 0 0 0" xml:space="preserve">
+                            <circle fill="#6e6b6b" stroke="none" cx="6" cy="50" r="6">
+                            <animate attributeName="opacity"
+                                     dur="1s"
+                                     values="0;1;0"
+                                     repeatCount="indefinite"
+                                     begin="0.1" />
+
+
 
                     </circle>
-                <circle fill="#6e6b6b" stroke="none" cx="26" cy="50" r="6">
-                <animate attributeName="opacity"
-                         dur="1s"
-                         values="0;1;0"
-                         repeatCount="indefinite"
-                         begin="0.2" />
+                            <circle fill="#6e6b6b" stroke="none" cx="26" cy="50" r="6">
+                            <animate attributeName="opacity"
+                                     dur="1s"
+                                     values="0;1;0"
+                                     repeatCount="indefinite"
+                                     begin="0.2" />
+
+
 
                     </circle>
-                <circle fill="#6e6b6b" stroke="none" cx="46" cy="50" r="6">
-                <animate attributeName="opacity"
-                         dur="1s"
-                         values="0;1;0"
-                         repeatCount="indefinite"
-                         begin="0.3" />
+                            <circle fill="#6e6b6b" stroke="none" cx="46" cy="50" r="6">
+                            <animate attributeName="opacity"
+                                     dur="1s"
+                                     values="0;1;0"
+                                     repeatCount="indefinite"
+                                     begin="0.3" />
+
+
 
                     </circle>
                 </svg>
+                        </div>
+                    </div>
             </div>
-        </div>
-    </div>
     <div class="ui bottom attached inverted blue segment" style="height: 10%;">
         <div class="ui fluid action input hidden" id="SymptomSelectionContainer">
             <select name="skills" multiple="" class="ui fluid dropdown" id="Symptoms">

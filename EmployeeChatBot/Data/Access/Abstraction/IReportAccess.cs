@@ -1,6 +1,7 @@
 ﻿using EmployeeChatBot.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,8 +17,9 @@ namespace EmployeeChatBot.Data.Access.Abstraction
 
         Task<ReportDataModel> CheckReportByEmployeeId(string empId);
 
-        Task<ReportDataModel> CheckReportByEmail(string email);
-
         Task LogFailedLogin(string username, string domain);
+
+        Task<Collection<ReportDataModel>> GetPositiveReports();
+        Task ClearReport(int id);
     }
 }
