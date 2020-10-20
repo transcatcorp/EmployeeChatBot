@@ -22,9 +22,15 @@ namespace EmployeeChatBot
     {
         private IWebHostEnvironment Environment { get; set; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", false, true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -51,6 +57,17 @@ namespace EmployeeChatBot
             //get the Email settings from the appsettings.json file
             section = Configuration.GetSection("EmailOptions");
             services.Configure<EmailOptions>(section);
+
+            //get the user settings from the appsettings.json file
+            section = Configuration.GetSection("ElevatedUsersOptions");
+            services.Configure<ElevatedUsersOptions>(section);
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);//We set Time here 
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +89,7 @@ namespace EmployeeChatBot
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
