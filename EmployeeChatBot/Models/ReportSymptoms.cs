@@ -17,10 +17,14 @@ namespace EmployeeChatBot.Models
         public bool Traveled { get; set; }
         public bool CloseProximity { get; set; }
 
+        public bool Headache { get; set; }
+        public bool Sinuses { get; set; }
+        public bool Fatigue { get; set; }
+
 
         public bool IsPositive()
         {
-            return Fever || Cough || Breathing || SoreThroat || BodyAches || LossOfSmell || VomitDiarrhea || Traveled || CloseProximity;
+            return Fever || Cough || Breathing || SoreThroat || BodyAches || LossOfSmell || VomitDiarrhea || Traveled || CloseProximity || Headache || Fatigue || Sinuses;
         }
     }
 }
