@@ -36,7 +36,10 @@ namespace EmployeeChatBot.Data.Access
                         symptoms.LossOfSmell,
                         symptoms.VomitDiarrhea,
                         symptoms.Traveled,
-                        symptoms.CloseProximity
+                        symptoms.CloseProximity,
+                        symptoms.Headache,
+                        symptoms.Fatigue,
+                        symptoms.Sinuses
                     },
                     commandType: CommandType.StoredProcedure);
         }

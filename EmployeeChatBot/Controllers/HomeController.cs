@@ -53,7 +53,10 @@ namespace EmployeeChatBot.Controllers
                 LossOfSmell = model.Symptoms.Contains("Loss of taste or smell"),
                 VomitDiarrhea = model.Symptoms.Contains("Vomiting or diarrhea"),
                 Traveled = model.Symptoms.Contains("Traveled"),
-                CloseProximity = model.Symptoms.Contains("Close Proximity")
+                CloseProximity = model.Symptoms.Contains("Close Proximity"),
+                Fatigue = model.Symptoms.Contains("Fatigue"),
+                Sinuses = model.Symptoms.Contains("Sinuses"),
+                Headache = model.Symptoms.Contains("Headache")
             };
 
             await _reportAccess.SaveReport(reportId, symptoms);
